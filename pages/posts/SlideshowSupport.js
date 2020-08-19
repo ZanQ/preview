@@ -27,7 +27,7 @@ const Slideshow = (props) => {
     setActiveIndex(newIndex);
   }
 
-  if (props.items.length > 0) {
+  if ((props.items) && (props.items.length > 0)) {
     const slides = props.items.map((item) => {
           return (
           <CarouselItem
@@ -39,20 +39,21 @@ const Slideshow = (props) => {
           </CarouselItem>
           );
     });
-  } 
+   
   
-  return (
-    <Carousel
-      activeIndex={activeIndex}
-      next={next}
-      previous={previous}
-    >
-      <CarouselIndicators items={props.items} activeIndex={activeIndex} onClickHandler={goToIndex} />
-      {slides}
-      <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
-      <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
-    </Carousel>
-  );
+    return (
+      <Carousel
+        activeIndex={activeIndex}
+        next={next}
+        previous={previous}
+      >
+        <CarouselIndicators items={props.items} activeIndex={activeIndex} onClickHandler={goToIndex} />
+        {slides}
+        <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
+        <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
+      </Carousel>
+    );
+  }
 }
 
 export default Slideshow;
