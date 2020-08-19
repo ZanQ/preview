@@ -27,17 +27,19 @@ const Slideshow = (props) => {
     setActiveIndex(newIndex);
   }
 
-  const slides = props.items.map((item) => {
-        return (
-        <CarouselItem
-            onExiting={() => setAnimating(true)}
-            onExited={() => setAnimating(false)}
-            key={item.src}
-        >
-            <img src={item.src} className="carouselimage" alt={item.altText} />
-        </CarouselItem>
-        );
-  });
+  if (props.items.length > 0) {
+    const slides = props.items.map((item) => {
+          return (
+          <CarouselItem
+              onExiting={() => setAnimating(true)}
+              onExited={() => setAnimating(false)}
+              key={item.src}
+          >
+              <img src={item.src} className="carouselimage" alt={item.altText} />
+          </CarouselItem>
+          );
+    });
+  } 
   
   return (
     <Carousel
