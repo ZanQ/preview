@@ -1,0 +1,36 @@
+.container {
+  max-width: 52rem;
+  padding: 0 1rem;
+  margin: 3rem auto 6rem;
+}
+
+.headerTagline {
+  display: flex;
+  align-items: left;
+  align-items: center;
+  background-color: black;
+  margin-bottom: 1rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: linear-gradient(0deg, white 80%, rgb(87, 89, 156) 20%);
+}
+
+.headerImage {
+  margin-top: 1rem;
+  width: 6rem;
+  height: 6rem;
+}
+
+.headerHomeImage {
+  width: 8rem;
+  height: 8rem;
+}
+
+.backToHome {
+  margin: 3rem 0 0;
+}
+

@@ -1,0 +1,69 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  line-height: 1.6;
+  font-size: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.carouselimage {
+  width: 100%;
+  height: 70vh;
+}
+
+.card-margin {
+  text-align: center;
+}
+
+.story-footer-margins{
+  margin-left: 1em;
+}
+
+.story-footer-margin-img {
+  max-height: 30px;
+  max-width: 30px;
+}
+
+.borderbottom {
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.grad-header {
+  background-image: linear-gradient(rgba(255,0,0,0), rgba(255,0,0,1));
+}
+
+.title-text {
+  font-size: large;
+  margin: 50px 50px 0px 0px;
+  color: white;
+}
+
+.row-center {
+  max-width: 150%;
+  margin: 0 auto; /* Added */
+  float: none; /* Added */
+}
+
+.renderDetails {
+  margin: auto;
+}

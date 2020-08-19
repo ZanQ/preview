@@ -1,0 +1,6 @@
+/* This formats spaces in the Story Text */
+.white_space_pre {
+    text-align: left;
+    white-space: pre-wrap;
+}
+
