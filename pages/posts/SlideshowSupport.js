@@ -54,6 +54,13 @@ const Slideshow = (props) => {
       </Carousel>
     );
   }
+
+  else {
+
+    return (
+      ""
+    )
+  }
 }
 
 export default Slideshow;

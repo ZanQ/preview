@@ -18,8 +18,6 @@ const ANON_POST_DETAILS ='http://localhost/ZanQ/index.php/Api/Post/PostDetailWit
 //const URL_BASE ='http://localhost/ZanQ/';
 const URL_BASE = 'http://dev.zanq.co/';
 
-
-
 export default function Post({ postData }) {
 
     var imageArray = [];
