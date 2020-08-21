@@ -21,7 +21,7 @@ export default function Layout({ children, home }) {
       {!home && (
         <div className={styles.backToHome}>
           <Link href="http://dev.zanq.co/Zan/">
-            <a>← Sign Up</a>
+            <a>← Share a Story</a>
           </Link>
         </div>
       )}

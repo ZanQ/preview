@@ -48,7 +48,7 @@ export default function Post({ postData }) {
       <Layout>
         <Head>
         <link rel="icon" href="/favicon.ico" />
-        <meta property="og:title" content={postData.nickname} />
+        <meta property="og:url" content="http://zanq.co" />
         <meta property="og:description" content={postData.content.substring(0, postData.content.indexOf('.'))} />
         <meta property="og:image" content={imageArray[0].src} />
         
