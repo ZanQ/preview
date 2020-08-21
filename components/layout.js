@@ -15,10 +15,6 @@ export default function Layout({ children, home }) {
           name="description"
           content="Sometimes the best stories just happen to be real ones."
         />
-        <meta
-          property="og:image"
-          content="http://zanq.co/images/logo.jpg"
-        />
         <meta name="og:title" content={siteTitle} />
       </Head>
       <main>{children}</main>
