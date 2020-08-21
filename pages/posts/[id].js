@@ -50,12 +50,12 @@ export default function Post({ postData }) {
         <link rel="icon" href="/favicon.ico" />
         <meta property="og:title" content={postData.nickname} />
         <meta property="og:description" content={postData.content.substring(0, postData.content.indexOf('.'))} />
-        <meta property="og:image" content={imageArray[0]} />
+        <meta property="og:image" content={imageArray[0].src} />
         
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:title" content={postData.nickname} />
         <meta property="twitter:description" content={postData.content.substring(0, postData.content.indexOf('.'))} />
-        <meta property="twitter:image" content={imageArray[0]} />
+        <meta property="twitter:image" content={imageArray[0].src} />
       </Head>  
         <React.Fragment>
             <Row className={styles.headerTagline}>
