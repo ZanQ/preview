@@ -4,6 +4,7 @@ import previewStyles from '../../styles/preview.module.css'
  
 //import { getAllPostIds, getPostData, getPostDetails } from '../../lib/posts'
 import getPostDetails from '../../lib/posts'
+import Head from 'next/head'
 import styles from '../../components/layout.module.css'
 import axios from 'axios'
 import fetch from 'node-fetch'
@@ -14,9 +15,9 @@ import Linkify from 'react-linkify';
 import Swal from 'sweetalert2';
 
 const ipurl = "https://api.ipify.org";
-const ANON_POST_DETAILS ='http://localhost/ZanQ/index.php/Api/Post/PostDetailWithIP';
-//const URL_BASE ='http://localhost/ZanQ/';
 const URL_BASE = 'http://dev.zanq.co/';
+const ANON_POST_DETAILS = URL_BASE + 'index.php/Api/Post/PostDetailWithIP';
+//const URL_BASE ='http://localhost/ZanQ/';
 
 export default function Post({ postData }) {
 
@@ -43,8 +44,19 @@ export default function Post({ postData }) {
     }
 
     return (
-         
+        
       <Layout>
+        <Head>
+        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:title" content={postData.nickname} />
+        <meta property="og:description" content={postData.content.substring(0, postData.content.indexOf('.'))} />
+        <meta property="og:image" content={imageArray[0]} />
+        
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content={postData.nickname} />
+        <meta property="twitter:description" content={postData.content.substring(0, postData.content.indexOf('.'))} />
+        <meta property="twitter:image" content={imageArray[0]} />
+      </Head>  
         <React.Fragment>
             <Row className={styles.headerTagline}>
                 <Col md={3} xs={2}>
