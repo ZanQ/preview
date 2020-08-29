@@ -1,0 +1,3 @@
+#AWS Bot
+User-agent: Amazonbot
+Disallow: /            #Will disallow all urls on your site
