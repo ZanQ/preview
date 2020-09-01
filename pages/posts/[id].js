@@ -1,9 +1,10 @@
 import Layout from '../../components/layout'
 import Link from 'next/link'
 import previewStyles from '../../styles/preview.module.css'
+
+import getIP from '../api/userIP';
  
 //import { getAllPostIds, getPostData, getPostDetails } from '../../lib/posts'
-import getPostDetails from '../../lib/posts'
 import Head from 'next/head'
 import styles from '../../components/layout.module.css'
 import axios from 'axios'
@@ -14,10 +15,13 @@ import Slideshow from "./SlideshowSupport";
 import Linkify from 'react-linkify';
 import Swal from 'sweetalert2';
 
-const ipurl = "https://api.ipify.org";
+//const ipurl = "https://api.ipify.org";
+//const ipurl = "http://localhost:3000/api/userIP";
+const ipurl = "https://zanq.vercel.app/api/userIP";
+
 const URL_BASE = 'http://dev.zanq.co/';
-const ANON_POST_DETAILS = URL_BASE + 'index.php/Api/Post/PostDetailWithIP';
 //const URL_BASE ='http://localhost/ZanQ/';
+const ANON_POST_DETAILS = URL_BASE + 'index.php/Api/Post/PostDetailWithIP';
 
 export default function Post({ postData }) {
 
@@ -163,8 +167,8 @@ async function sendID (id) {
               .catch(errors => console.log(errors));
     let ip = await ipresponse.data;
   
-    console.log("ID - : " + id);
-    console.log("IP - : " + ip);
+    //console.log("ID - : " + id);
+    //console.log("IP - : " + ip);
   
     //Data Object to Pass Through
     const DetailRequest = {
