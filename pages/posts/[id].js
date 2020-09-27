@@ -1,39 +1,44 @@
 import Layout from '../../components/layout'
-import Link from 'next/link'
+import utilStyles from '../../styles/utils.module.css'
 import previewStyles from '../../styles/preview.module.css'
-
-import getIP from '../api/userIP';
  
-//import { getAllPostIds, getPostData, getPostDetails } from '../../lib/posts'
+import React from 'react';
+
 import Head from 'next/head'
 import styles from '../../components/layout.module.css'
-import axios from 'axios'
-import fetch from 'node-fetch'
-import { Card, CardBody, CardTitle, CardImg, Row, Col, CardText, Container, CardFooter, Navbar, NavbarBrand } from 'reactstrap';
-import utilStyles from '../../styles/utils.module.css'
+
+import { Card, CardBody, Row, Col, CardFooter } from 'reactstrap';
 import Slideshow from "./SlideshowSupport";
 import Linkify from 'react-linkify';
 import Swal from 'sweetalert2';
 
-//const ipurl = "https://api.ipify.org";
-//const ipurl = "http://localhost:3000/api/userIP";
-const ipurl = "https://zanq.vercel.app/api/userIP";
+import fetch from 'isomorphic-unfetch';
+import useSWR from 'swr';
+
+const API_URL = 'https://extreme-ip-lookup.com/json/';
 
 const URL_BASE = 'http://dev.zanq.co/';
 //const URL_BASE ='http://localhost/ZanQ/';
-const ANON_POST_DETAILS = URL_BASE + 'index.php/Api/Post/PostDetailWithIP';
+const ANON_POST_DETAILS = URL_BASE + 'index.php/Api/Post/PostDetailWithoutIP';
 
-export default function Post({ postData }) {
+const ANON_IP_STORE = URL_BASE + 'index.php/Api/Post/recordAnonIP';
+
+const myIP = ({ post }) => {
+
+    //Call the function that record the IP
+    Index(post.id);
+
+    let image = Object;
 
     var imageArray = [];
 
-    if ((postData.images) && (postData.images.length > 0)) {
+    if ((post.images) && (post.images.length > 0)) {
 
-        for (var i = 0; i < postData.images.length; i++) {
+        for (var i = 0; i < post.images.length; i++) {
                         
             //Add to Array to send to Image Carousel
             var imageObj = new Object();
-            imageObj.src = URL_BASE + postData.images[i];
+            imageObj.src = URL_BASE + post.images[i];
             imageObj.altText = "Image " + (i + 1);
             imageArray.push(imageObj);
         }
@@ -44,81 +49,213 @@ export default function Post({ postData }) {
         imageObj1.src = "/images/noimage.jpeg";
         imageObj1.altText = "Image 1";
         imageArray.push(imageObj1);
-
     }
 
+
     return (
-        
-      <Layout>
-        <Head>
-        <link rel="icon" href="/favicon.ico" />
-        <meta property="og:url" content="http://zanq.co" />
-        <meta property="og:description" content={postData.content.substring(0, postData.content.indexOf('.'))} />
-        <meta property="og:image" content={imageArray[0].src} />
-        
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:title" content={postData.nickname} />
-        <meta property="twitter:description" content={postData.content.substring(0, postData.content.indexOf('.'))} />
-        <meta property="twitter:image" content={imageArray[0].src} />
-      </Head>  
-        <React.Fragment>
-            <Row className={styles.headerTagline}>
-                <Col md={3} xs={2}>
-                    <img src="/images/default_logo.png" height="41" width="41" alt="ZanQ"></img>
-                </Col>
-                <Col md={9} xs={10}>
-                    <span className="title-text">ZanQ: Anonymous Personal Stories</span>
-                </Col>
-            </Row>
-        </React.Fragment>    
-        <header className={styles.header}>
-            { 
-            <>
-                    <img
-                    src={postData.user_avatar}
-                    className={`${styles.headerImage} ${utilStyles.borderCircle}`}
-                    alt={postData.nickname}
-                    />
-            
-                <h4>
-                    <div className={utilStyles.headingLg}>{postData.nickname}</div>
-                    <br />
-                    <div className={utilStyles.headingSm}>Points: {postData.user_score}</div>
-                </h4>    
-            </>
-            }
-        </header>   
-        <React.Fragment>
+        <Layout>
+            <Head>
+                <link rel="icon" href="/favicon.ico" />
+                <meta property="og:url" content="http://zanq.co" />
+                
+                <meta property="og:description" content={post.content.substring(0, post.content.indexOf('.'))} />
+                <meta property="og:image" content={imageArray[0].src} />
+                
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:title" content={post.nickname} />
+                <meta property="twitter:description" content={post.content.substring(0, post.content.indexOf('.'))} />
+                <meta property="twitter:image" content={imageArray[0].src} />
+            </Head>  
+            <React.Fragment>
+                <Row className={styles.headerTagline}>
+                    <Col md={3} xs={2}>
+                        <img src="/images/default_logo.png" height="41" width="41" alt="ZanQ"></img>
+                    </Col>
+                    <Col md={9} xs={10}>
+                        <span className="title-text">ZanQ: Anonymous Personal Stories</span>
+                    </Col>
+                </Row>
+            </React.Fragment>    
+            <header className={styles.header}>
+                { 
+                <>
+                        <img
+                        src={post.user_avatar}
+                        className={`${styles.headerImage} ${utilStyles.borderCircle}`}
+                        alt={post.nickname}
+                        />
+                
+                    <h4>
+                        <div className={utilStyles.headingLg}>{post.nickname}</div>
+                        <br />
+                        <div className={utilStyles.headingSm}>Points: {post.user_score}</div>
+                    </h4>    
+                </>
+                }
+            </header>   
+            <React.Fragment>
                 <Card className="renderDetails">
                         <Slideshow items={imageArray} />
-                        <CardBody className={previewStyles.white_space_pre}><Linkify>{postData.content}</Linkify></CardBody>
+                        <CardBody className={previewStyles.white_space_pre}><Linkify>{post.content}</Linkify></CardBody>
                         <span className="borderbottom" />
                         <CardFooter>
                             <Row className="row-center">
-                                <Col onClick={(e) => buttonClicked(e, "Zans")} md={5} xs={4}>
+                                <Col onClick={(e) => buttonClicked(e, "Zan Appreciations")} md={5} xs={4}>
                                     <Row className="ml-2">
                                         <img src="/images/ic_zan_logo.png" className="story-footer-margin-img" alt="Zanned Icon" />
-                                        <span className="story-footer-margins">{postData.praise_num}</span>
+                                        <span className="story-footer-margins">{post.praise_num}</span>
                                     </Row>
                                 </Col>
                                 <Col onClick={(e) => buttonClicked(e, "Comments")} md={5} xs={4}>
                                     <Row className="ml-1">
                                         <div className="fa fa-comments fa-lg story-footer-margin-img" />
-                                        <span className="story-footer-margins">{postData.comment_num}</span>
+                                        <span className="story-footer-margins">{post.comment_num}</span>
                                     </Row> 
                                 </Col>
                                 <Col md={2} xs={4}>
                                     <Row className="ml-1">
                                         <div className="fa fa-eye fa-lg story-footer-margin-img" />
-                                        <span className="story-footer-margins">{postData.number_visits}</span>
+                                        <span className="story-footer-margins">{post.number_visits}</span>
                                     </Row>
                                 </Col>
                             </Row> 
                         </CardFooter>
                     </Card>
-        </React.Fragment>
-      </Layout>
-    )
+            </React.Fragment>
+        </Layout>
+    );
+}
+
+const getPost = async (id) => {
+  
+    const response = await sendID(id)
+          .then((data) => {
+  
+              //Success
+              if (data['code'] === 1) {
+  
+                  return (
+                          data['data']
+
+                  )
+              }  
+              else {
+                  var error2 = new Error(data['message']);
+                  throw error2;
+              }  
+          })
+      .catch(error => console.log(error))
+  
+      return (
+          response
+      );
+}
+
+async function sendID (id) {
+
+    //console.log("ID : " + id);
+
+        //Data Object to Pass Through
+        const DetailRequest = {
+            postId: id,
+        }
+    
+        //console.log("JSON : " + JSON.stringify(DetailRequest));
+
+        let response = await fetch(ANON_POST_DETAILS, { 
+        method: 'POST',
+        headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: "params=" + JSON.stringify(DetailRequest) + "&developer=1",
+        credentials: 'same-origin'
+        })
+        .then(response => {
+                if (response.ok) {
+                        return response;
+                }
+                else {
+                        var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                        error.response = response;
+                        throw error;
+                }
+        },
+        error => {
+                var errorMessage = new Error(error.errorMessage);
+                throw errorMessage;
+        }) 
+    
+        let data = await response.json();
+        
+        return (
+            data
+        )
+}
+
+/******************** Store IP ************************/
+
+/* Get IP */
+async function fetcher(url) {
+    const res = await fetch(url);
+    const json = await res.json();
+    return json;
+  }
+  
+function Index(postID) {
+  
+    const { data, error } = useSWR(API_URL, fetcher);
+  
+    if (error) return <div>failed to load</div>;
+    if (!data) return <div>loading...</div>;
+  
+    //This is our Client IP
+    const { query } = data;
+
+    //Send the Data to our Database to record
+    send_IP_and_postID(query, postID);    
+
+    return query;
+    
+}
+
+async function send_IP_and_postID (ip, id) {
+
+    console.log("ID : " + id);
+    console.log("IP : " + ip);
+
+    if (ip.length > 0) {
+
+        //Data Object to Pass Through
+        const DetailRequest = {
+            ip: ip,
+            postId: id,
+        }
+    
+        //console.log("JSON : " + JSON.stringify(DetailRequest));
+
+        fetch(ANON_IP_STORE, { 
+        method: 'POST',
+        headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: "params=" + JSON.stringify(DetailRequest) + "&developer=1",
+        credentials: 'same-origin'
+        })
+        .then(response => {
+                if (response.ok) {
+                        return response;
+                }
+                else {
+                        var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                        error.response = response;
+                        throw error;
+                }
+        },
+        error => {
+                var errorMessage = new Error(error.errorMessage);
+                throw errorMessage;
+        }) 
+    }
 }
 
 //Changes the middle widget based on Navigations clicked
@@ -135,75 +272,16 @@ function buttonClicked(event, value) {
       })
 }
 
-export async function getServerSideProps({ params }) {
-    
-    let postData = await sendID(params.id)
-        .then((data) => {
+export const getServerSideProps = async ({ query }) => {
+    const { id } = query;
 
-            //Success
-            if (data['code'] === 1) {
-
-                return (
-                        data['data']
-                )
-            }  
-            else {
-                var error2 = new Error(data['message']);
-                throw error2;
-            }  
-        })
-    .catch(error => console.log(error))
-
+    let post = await getPost(id);
+  
     return {
-      props: {
-        postData
-      }
+        props: {
+          post,
+        }
     }
 }
 
-async function sendID (id) {
-
-    let ipresponse = await axios.get(ipurl)
-              .catch(errors => console.log(errors));
-    let ip = await ipresponse.data;
-  
-    //console.log("ID - : " + id);
-    //console.log("IP - : " + ip);
-  
-    //Data Object to Pass Through
-    const DetailRequest = {
-          postId: id,
-          ip: await ip,
-    }
-  
-    let response = await fetch(ANON_POST_DETAILS, { 
-      method: 'POST',
-      headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: "params=" + JSON.stringify(DetailRequest) + "&developer=1",
-      credentials: 'same-origin'
-      })
-      .then(response => {
-              if (response.ok) {
-                      return response;
-              }
-              else {
-                      var error = new Error('Error ' + response.status + ': ' + response.statusText);
-                      error.response = response;
-                      throw error;
-              }
-      },
-      error => {
-              var errorMessage = new Error(error.errorMessage);
-              throw errorMessage;
-      }) 
-  
-    let data = await response.json();
-    
-    return (
-        data
-    )
-}
-
-
+export default myIP;

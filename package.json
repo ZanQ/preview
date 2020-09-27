@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "form-data": "^3.0.0",
     "gray-matter": "^4.0.2",
+    "isomorphic-unfetch": "^3.0.0",
     "jquery": "^3.5.1",
     "next": "9.3.5",
     "node-fetch": "^2.6.0",
@@ -24,6 +25,7 @@
     "react-dom": "16.13.1",
     "react-linkify": "^1.0.0-alpha",
     "reactstrap": "^8.5.1",
-    "sweetalert2": "^9.17.1"
+    "sweetalert2": "^9.17.1",
+    "swr": "^0.3.5"
   }
 }
