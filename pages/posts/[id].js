@@ -17,7 +17,7 @@ import useSWR from 'swr';
 
 const API_URL = 'https://extreme-ip-lookup.com/json/';
 
-const URL_BASE = 'http://dev.zanq.co/';
+const URL_BASE = 'https://dev.zanq.co/';
 //const URL_BASE ='http://localhost/ZanQ/';
 const ANON_POST_DETAILS = URL_BASE + 'index.php/Api/Post/PostDetailWithoutIP';
 
@@ -220,6 +220,35 @@ function Index(postID) {
 
 async function send_IP_and_postID (ip, id) {
 
+        
+    //Data Object to Pass Through
+    const DetailRequest = {
+        ip: ip,
+        postId: id,
+    }
+    
+    //Set the Form Data to Upload
+    let formData = new FormData();
+
+    formData.append("params", JSON.stringify(DetailRequest));
+    formData.append("developer", "1");
+    
+    //Upload
+    const config = {
+            Headers: "Content-Type: application/x-www-form-urlencoded"
+        }
+        
+    let response = await axios.post(ANON_IP_STORE, formData, config)
+            .catch(errors => console.log(errors));
+
+    let data = response.data;
+
+    return data;
+}
+
+/*
+async function send_IP_and_postID (ip, id) {
+
     console.log("ID : " + id);
     console.log("IP : " + ip);
 
@@ -256,7 +285,7 @@ async function send_IP_and_postID (ip, id) {
                 throw errorMessage;
         }) 
     }
-}
+}*/
 
 //Changes the middle widget based on Navigations clicked
 function buttonClicked(event, value) {
