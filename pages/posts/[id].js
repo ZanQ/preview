@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 
 import fetch from 'isomorphic-unfetch';
 import useSWR from 'swr';
+import axios from 'axios';
 
 const API_URL = 'https://extreme-ip-lookup.com/json/';
 
