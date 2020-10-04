@@ -11,6 +11,18 @@ export default function Home() {
             content="Preview Page"
         />
         <title>{siteTitle}</title>
+
+        <script async src={"https://www.googletagmanager.com/gtag/js?id=G-NQH25QFK8N"}/>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-NQH25QFK8N');
+              `,
+          }}
+        />
       </Head>
       <section className={utilStyles.headingMd}>…</section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
