@@ -66,6 +66,17 @@ const myIP = ({ post }) => {
                 <meta property="twitter:title" content={post.nickname} />
                 <meta property="twitter:description" content={post.content.substring(0, post.content.indexOf('.'))} />
                 <meta property="twitter:image" content={imageArray[0].src} />
+
+                <script async src={"https://www.googletagmanager.com/gtag/js?id=G-NQH25QFK8N"}/>
+                <script
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-NQH25QFK8N');
+                    `,
+                }} />
             </Head>  
             <React.Fragment>
                 <Row className={styles.headerTagline}>
